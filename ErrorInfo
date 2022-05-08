@@ -1,0 +1,10 @@
+Exception in thread "main" org.springframework.beans.factory.NoSuchBeanDefinitionException: 
+No qualifying bean of type 'com.training.springbootlearn.Employee' available
+
+=====================
+
+org.springframework.beans.factory.NoUniqueBeanDefinitionException: 
+No qualifying bean of type 'com.training.springbootlearn.Department' available: 
+expected single matching bean but found 2: departmentAdmin,departmentHR
+
+=================
