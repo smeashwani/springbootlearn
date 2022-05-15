@@ -1,31 +1,52 @@
 package com.training.springbootlearn;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-@Named
 public class Student {
 	private String name;
-	private Subject subject;
+	private int id;
+	private String  location;
+	private Date birthDate;
 	
-	@Inject
-	Student(Subject subject){
-		this.subject=subject;
+	public Student(){}
+	
+	
+	public Student(int id, String name, String location, Date birth_date) {
+		super();
+		this.name = name;
+		this.id = id;
+		this.location = location;
+		this.birthDate = birth_date;
 	}
 	
+	@Override
+	public String toString() {
+		return "Student [name=" + name + ", id=" + id + ", location=" + location + ", birth_date=" + birthDate + "]";
+	}
+
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Subject getSubject() {
-		return subject;
+	public int getId() {
+		return id;
 	}
-	public void setSubject(Subject subject) {
-		this.subject = subject;
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 	
+	public Date getBirthDate() {
+		return birthDate;
+	}
 }
