@@ -1,20 +1,13 @@
 package com.training.springbootlearn;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-
-import com.training.springbootlearn.service.MyService;
-
-@SpringBootApplication
+//@SpringBootApplication
 public class SpringbootlearnApplication {
 
 	public static void main(String[] args) {
-		ApplicationContext ctx = SpringApplication.run(SpringbootlearnApplication.class, args);
-		MyService bean = ctx.getBean(MyService.class);
-		System.out.println(bean.getEmployeeName());
-		
+		//ApplicationContext ctx = SpringApplication.run(SpringbootlearnApplication.class, args);
+//		MyService bean = ctx.getBean(MyService.class);
+//		System.out.println(bean.getEmployeeName());
+//		
 //		Employee bean = ctx.getBean(Employee.class);
 //		System.out.println(bean.getCompanyName());
 //		System.out.println(bean);
