@@ -1,22 +1,31 @@
 package com.training.springbootlearn.service;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.training.springbootlearn.Student;
-import com.training.springbootlearn.dao.MyDao;
+import com.training.springbootlearn.dao.MyDaoSpringData;
 
 @Service
+@Transactional
 public class MyService {
 	
+	/*
+	 * @Autowired MyDao dao;
+	 */
+//	@Autowired
+//	MyDaoJPA dao;
 	@Autowired
-	MyDao dao;
+	MyDaoSpringData dao;
 	
 	public Student findById(int id) {
-		return dao.findById(id);	
+		Optional<Student> findById = dao.findById(id);
+		return findById.isPresent()?findById.get():null;
 	}
 	
 	public List<Student> findAll() {
@@ -31,6 +40,7 @@ public class MyService {
 	}
 	
 	public void update(Student student) {
-		dao.update(student);
+		//dao.update(student);
+		dao.save(student);
 	}
 }

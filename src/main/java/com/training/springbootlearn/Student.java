@@ -2,10 +2,22 @@ package com.training.springbootlearn;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+
+@Entity
+@NamedQuery(name="find_all_Students", query="select p from Student p")
 public class Student {
+	
 	private String name;
+	
+	@Id
 	private int id;
 	private String  location;
+	
+	@Column(name = "birth_Date")
 	private Date birthDate;
 	
 	public Student(){}
