@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.training.springbootlearn.service.MyService;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class SpringbootlearnApplication implements CommandLineRunner{
 
 	@Autowired

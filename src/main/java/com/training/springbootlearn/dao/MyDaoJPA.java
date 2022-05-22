@@ -1,16 +1,11 @@
 package com.training.springbootlearn.dao;
 
-import java.sql.ResultSet;
-
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.training.springbootlearn.Student;

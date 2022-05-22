@@ -7,5 +7,5 @@ import com.training.springbootlearn.Student;
 
 @Repository
 public interface MyDaoSpringData extends JpaRepository<Student, Integer>{
-
+	
 }
