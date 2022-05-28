@@ -4,8 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 
 @Entity
 @NamedQuery(name="find_all_Students", query="select p from Student p")
@@ -14,7 +16,10 @@ public class Student {
 	private String name;
 	
 	@Id
+	@GeneratedValue
 	private int id;
+	
+	@Column(name = "location", insertable = false)
 	private String  location;
 	
 	@Column(name = "birth_Date")
