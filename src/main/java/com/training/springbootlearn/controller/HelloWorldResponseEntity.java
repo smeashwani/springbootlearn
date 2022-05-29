@@ -15,13 +15,13 @@ public class HelloWorldResponseEntity {
 		return new ResponseEntity<>("Hello World!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/string", method = RequestMethod.GET)
-	public ResponseEntity stringOnly() {
+	@RequestMapping(value = "/string", method = RequestMethod.POST)
+	public ResponseEntity stringHello() {
 		return new ResponseEntity<>("Hello World!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/string", method = RequestMethod.GET)
-	public ResponseEntity stringOnly() {
+	@RequestMapping(value = "/string", method = RequestMethod.PUT)
+	public ResponseEntity stringOk() {
 		return ResponseEntity.ok().body("String");
 	}
 	

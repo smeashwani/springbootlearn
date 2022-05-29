@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.training.springbootlearn.Student;
+import com.training.springbootlearn.entity.StudentEntity;
 
 @Repository
 public class MyDao {
@@ -18,7 +18,7 @@ public class MyDao {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-	public Student findById(int id) {
+	public StudentEntity findById(int id) {
 		//return jdbcTemplate.queryForObject("select * from Student where id=?", 
 		//		new Object[] { id },new BeanPropertyRowMapper<Student>(Student.class));
 		return jdbcTemplate.queryForObject("select * from Student where id=?", 
@@ -26,7 +26,7 @@ public class MyDao {
 
 	}
 	
-	public List<Student> findAll() {
+	public List<StudentEntity> findAll() {
 		 return jdbcTemplate.query("select * from Student", new StudentRowMapper());
 	}
 	
@@ -34,21 +34,21 @@ public class MyDao {
 		jdbcTemplate.update("delete from Student where id=?", new Object[] { id });
 	}
 	
-	public void save(Student student) {
+	public void save(StudentEntity student) {
 		jdbcTemplate.update("insert into Student (id, name, location, birth_date) " + "values(?,  ?, ?, ?)",
 				new Object[] { student.getId(), student.getName(), student.getLocation(),new Timestamp(student.getBirthDate().getTime()) });
 	}
-	public void update(Student student) {
+	public void update(StudentEntity student) {
 		jdbcTemplate.update("update Student " + " set name = ?, location = ?, birth_date = ? " + " where id = ?",
 				new Object[] { student.getName(), student.getLocation(), new Timestamp(student.getBirthDate().getTime()), student.getId() });
 
 	}
 	
 	
-	class StudentRowMapper implements RowMapper<Student>{
+	class StudentRowMapper implements RowMapper<StudentEntity>{
 		@Override
-		public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Student Student = new Student();
+		public StudentEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
+			StudentEntity Student = new StudentEntity();
 			Student.setId(rs.getInt("id"));
 			Student.setName(rs.getString("name"));
 			Student.setLocation(rs.getString("location"));

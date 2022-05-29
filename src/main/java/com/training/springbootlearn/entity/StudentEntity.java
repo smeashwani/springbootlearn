@@ -1,4 +1,4 @@
-package com.training.springbootlearn;
+package com.training.springbootlearn.entity;
 
 import java.util.Date;
 
@@ -7,28 +7,36 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@NamedQuery(name="find_all_Students", query="select p from Student p")
-public class Student {
-	
+@NamedQuery(name="find_all_Students", query="select p from StudentEntity p")
+@Table(name = "Student")
+public class StudentEntity {
+
+	//@Min(value = 3, message = "At least 3 character long")
+	@NotNull
 	private String name;
 	
 	@Id
 	@GeneratedValue
 	private int id;
 	
-	@Column(name = "location", insertable = false)
+	//@Column(name = "location", insertable = false)
+	@Column(name = "location")
 	private String  location;
 	
 	@Column(name = "birth_Date")
 	private Date birthDate;
 	
-	public Student(){}
+	public StudentEntity(){}
 	
 	
-	public Student(int id, String name, String location, Date birth_date) {
+	public StudentEntity(int id, String name, String location, Date birth_date) {
 		super();
 		this.name = name;
 		this.id = id;

@@ -8,7 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
-import com.training.springbootlearn.Student;
+import com.training.springbootlearn.entity.StudentEntity;
 
 @Repository
 public class MyDaoJPA {
@@ -17,26 +17,26 @@ public class MyDaoJPA {
 	EntityManager entityManager;
 
 	
-	public Student findById(int id) {
-		return entityManager.find(Student.class, id);
+	public StudentEntity findById(int id) {
+		return entityManager.find(StudentEntity.class, id);
 
 	}
 	
-	public List<Student> findAll() {
-		 TypedQuery<Student> namedQuery = entityManager.createNamedQuery("find_all_Students", Student.class); 
+	public List<StudentEntity> findAll() {
+		 TypedQuery<StudentEntity> namedQuery = entityManager.createNamedQuery("find_all_Students", StudentEntity.class); 
 		 return namedQuery.getResultList();
 
 	}
 	
 	public void deleteById(int id) {
-		Student student = findById(id);
+		StudentEntity student = findById(id);
 		entityManager.remove(student);
 	}
 	
-	public void save(Student student) {
+	public void save(StudentEntity student) {
 		entityManager.merge(student);
 	}
-	public void update(Student student) {
+	public void update(StudentEntity student) {
 		entityManager.merge(student);
 	}
 }

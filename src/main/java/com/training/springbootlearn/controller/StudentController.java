@@ -2,7 +2,12 @@ package com.training.springbootlearn.controller;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.training.springbootlearn.Student;
+import com.training.springbootlearn.entity.StudentEntity;
+import com.training.springbootlearn.exception.StudentNotFoundException;
+import com.training.springbootlearn.model.StudentDTO;
 import com.training.springbootlearn.service.MyService;
 
 @RestController
@@ -24,22 +31,31 @@ public class StudentController {
 	private MyService service;
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Student> getStudent(@PathVariable int id) {
-		Student stu = service.findById(id);
-		if(stu == null) {
-			return new ResponseEntity<Student>(stu,HttpStatus.BAD_REQUEST);
+	public ResponseEntity<StudentDTO> getStudent(@PathVariable int id) {
+		StudentEntity stuEntity = service.findById(id);
+		if(stuEntity == null) {
+			throw new StudentNotFoundException("StudentNotFoundException");
 		}
-		return new ResponseEntity<Student>(stu,HttpStatus.OK);
+		StudentDTO stu =  new StudentDTO();
+		BeanUtils.copyProperties(stuEntity,stu);
+		
+		Link selfLink = WebMvcLinkBuilder.linkTo(StudentController.class)
+				   .slash(stu.getId()).withSelfRel();
+		stu.add(selfLink);
+				
+		return new ResponseEntity<StudentDTO>(stu,HttpStatus.OK);
 	}
 	
 	@PostMapping()
-	public String postStudent(@RequestBody Student stu) {
-		service.save(stu);
-		return "saved"+ stu.getId();
+	public String postStudent(@Valid @RequestBody StudentDTO stu) {
+		StudentEntity entity = new StudentEntity();
+		BeanUtils.copyProperties(stu,entity);
+		service.save(entity);
+		return "saved"+ entity.getId();
 	}
 	
 	@PostMapping("/responseEntity")
-	public ResponseEntity<Object> postStudent1(@RequestBody Student stu) {
+	public ResponseEntity<Object> postStudent1(@RequestBody StudentEntity stu) {
 		service.save(stu);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(stu.getId())
 				.toUri();
@@ -53,6 +69,4 @@ public class StudentController {
 		service.deleteById(id);
 		return "Deleted";
 	}
-	
-	
 }

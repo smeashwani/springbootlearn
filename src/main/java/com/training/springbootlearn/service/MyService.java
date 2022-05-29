@@ -8,8 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.training.springbootlearn.Student;
 import com.training.springbootlearn.dao.MyDaoSpringData;
+import com.training.springbootlearn.entity.StudentEntity;
 
 @Service
 @Transactional
@@ -23,23 +23,23 @@ public class MyService {
 	@Autowired
 	MyDaoSpringData dao;
 	
-	public Student findById(int id) {
-		Optional<Student> findById = dao.findById(id);
+	public StudentEntity findById(int id) {
+		Optional<StudentEntity> findById = dao.findById(id);
 		return findById.isPresent()?findById.get():null;
 	}
 	
-	public List<Student> findAll() {
+	public List<StudentEntity> findAll() {
 		return dao.findAll();	
 	}
 	public void deleteById(int id) {
 		dao.deleteById(id);
 	}
-	public void save(Student student) {
+	public void save(StudentEntity student) {
 		dao.save(student);
 		
 	}
 	
-	public void update(Student student) {
+	public void update(StudentEntity student) {
 		//dao.update(student);
 		dao.save(student);
 	}
