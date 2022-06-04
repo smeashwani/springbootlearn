@@ -24,12 +24,20 @@ import com.training.springbootlearn.exception.StudentNotFoundException;
 import com.training.springbootlearn.model.StudentDTO;
 import com.training.springbootlearn.service.MyService;
 
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/student")
 public class StudentController {
 	@Autowired
 	private MyService service;
 	
+
+	@ApiResponses(value = {
+	  @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+	  @ApiResponse(responseCode = "404", description = "id <=0 - The student was not found")
+	})
 	@GetMapping("/{id}")
 	public ResponseEntity<StudentDTO> getStudent(@PathVariable int id) {
 		StudentEntity stuEntity = service.findById(id);
