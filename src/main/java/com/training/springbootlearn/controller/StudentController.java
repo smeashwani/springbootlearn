@@ -4,12 +4,11 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.training.springbootlearn.entity.StudentEntity;
 import com.training.springbootlearn.exception.StudentNotFoundException;
 import com.training.springbootlearn.model.StudentDTO;
@@ -39,19 +41,25 @@ public class StudentController {
 	  @ApiResponse(responseCode = "404", description = "id <=0 - The student was not found")
 	})
 	@GetMapping("/{id}")
-	public ResponseEntity<StudentDTO> getStudent(@PathVariable int id) {
+	public StudentDTO getStudent(@PathVariable int id) {
 		StudentEntity stuEntity = service.findById(id);
 		if(stuEntity == null) {
 			throw new StudentNotFoundException("StudentNotFoundException");
 		}
 		StudentDTO stu =  new StudentDTO();
+		stu.setPassword(RandomStringUtils.random(6));
 		BeanUtils.copyProperties(stuEntity,stu);
 		
-		Link selfLink = WebMvcLinkBuilder.linkTo(StudentController.class)
-				   .slash(stu.getId()).withSelfRel();
-		stu.add(selfLink);
-				
-		return new ResponseEntity<StudentDTO>(stu,HttpStatus.OK);
+//		Link selfLink = WebMvcLinkBuilder.linkTo(StudentController.class)
+//				   .slash(stu.getId()).withSelfRel();
+//		stu.add(selfLink);
+		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept("id", "name");
+		FilterProvider filters = new SimpleFilterProvider().addFilter("StudentFilter", filter);
+		
+		MappingJacksonValue mapping = new MappingJacksonValue(stu);
+		mapping.setSerializationView(StudentDTO.class);
+		StudentDTO value = (StudentDTO)mapping.getValue();
+		return value;
 	}
 	
 	@PostMapping()

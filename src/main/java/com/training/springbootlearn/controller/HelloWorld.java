@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.training.springbootlearn.config.Database;
 import com.training.springbootlearn.entity.StudentEntity;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/hello-world")
 
 public class HelloWorld {
+	
+	@Autowired
+	private Database database;
 
 	@Autowired
 	private MessageSource messageSource;
@@ -86,7 +90,11 @@ public class HelloWorld {
 	public StudentEntity getStudentBean() {
 		 return new StudentEntity(1, "Ducat1", "Location", new Date());
 	}
-
-
+	
+	@GetMapping(path = "/database")
+	public Database getDatabase() {
+		System.out.println("===============Inside the Controller ======================");
+		return database;
+	}
 
 }

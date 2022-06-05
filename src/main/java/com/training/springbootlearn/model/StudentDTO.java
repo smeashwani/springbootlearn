@@ -1,18 +1,36 @@
 package com.training.springbootlearn.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 
-import org.springframework.hateoas.RepresentationModel;
+import com.fasterxml.jackson.annotation.JsonFilter;
 
-public class StudentDTO extends RepresentationModel{
+//@JsonIgnoreProperties({"password","_links"})
+//@JsonPropertyOrder({ "name", "empID" })
+@JsonFilter("StudentFilter")
+public class StudentDTO implements Serializable
+//extends RepresentationModel
+{
 	
 	private String name;
 	
 	private int id;
 	
+	//@JsonIgnore
+	private String password;
+	
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@NotBlank(message = "should not be empty")
 	private String  location;
 	
