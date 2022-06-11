@@ -7,8 +7,8 @@ import javax.validation.Valid;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
@@ -41,25 +45,26 @@ public class StudentController {
 	  @ApiResponse(responseCode = "404", description = "id <=0 - The student was not found")
 	})
 	@GetMapping("/{id}")
-	public StudentDTO getStudent(@PathVariable int id) {
+	public ResponseEntity getStudent(@PathVariable int id) throws JsonProcessingException {
 		StudentEntity stuEntity = service.findById(id);
 		if(stuEntity == null) {
 			throw new StudentNotFoundException("StudentNotFoundException");
 		}
 		StudentDTO stu =  new StudentDTO();
-		stu.setPassword(RandomStringUtils.random(6));
+	//	stu.setPassword(RandomStringUtils.random(6, true, false));
 		BeanUtils.copyProperties(stuEntity,stu);
 		
 //		Link selfLink = WebMvcLinkBuilder.linkTo(StudentController.class)
 //				   .slash(stu.getId()).withSelfRel();
 //		stu.add(selfLink);
-		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.serializeAllExcept("id", "name");
-		FilterProvider filters = new SimpleFilterProvider().addFilter("StudentFilter", filter);
-		
-		MappingJacksonValue mapping = new MappingJacksonValue(stu);
-		mapping.setSerializationView(StudentDTO.class);
-		StudentDTO value = (StudentDTO)mapping.getValue();
-		return value;
+//		ObjectMapper mapper = new ObjectMapper();
+//        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+//        FilterProvider filters = new SimpleFilterProvider().setFailOnUnknownId(false).addFilter("StudentFilter",
+//                SimpleBeanPropertyFilter.filterOutAllExcept("id"));
+//        ObjectWriter writer = mapper.writer(filters);
+//        String writeValueAsString = writer.writeValueAsString(stu);
+//        StudentDTO stuDto = mapper.readValue(writeValueAsString, StudentDTO.class);
+        return ResponseEntity.status(HttpStatus.OK).body(stu); 
 	}
 	
 	@PostMapping()

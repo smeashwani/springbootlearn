@@ -6,11 +6,13 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 //@JsonIgnoreProperties({"password","_links"})
 //@JsonPropertyOrder({ "name", "empID" })
-@JsonFilter("StudentFilter")
+//@JsonFilter("StudentFilter")
+//@JsonInclude(Include.NON_NULL)
 public class StudentDTO implements Serializable
 //extends RepresentationModel
 {
